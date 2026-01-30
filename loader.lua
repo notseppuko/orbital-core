@@ -58,11 +58,11 @@ local function safeLoad(path)
     load(path)(Context)
 end
 
-safeLoad("ui/settings.lua")
 safeLoad("features/aimbot.lua")
 safeLoad("features/visuals.lua")
 safeLoad("features/movement.lua")
 safeLoad("features/player.lua")
 safeLoad("features/misc.lua")
+safeLoad("ui/settings.lua")
 
 warn("[Orbital] Loader finished successfully")

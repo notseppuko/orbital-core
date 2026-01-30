@@ -28,13 +28,18 @@ return function(ctx)
     Settings:AddDivider()
     Settings:AddSection("Config")
 
-Settings:AddButton("Save Config", function()
+    Settings:AddButton("Save Config", function()
     warn("[Orbital] Save Config clicked")
 
-    local success = ctx.Config:Save(ctx, "default")
+    if not ctx.Config or type(ctx.Config.Save) ~= "function" then
+        warn("[Orbital] Config.Save not available")
+        return
+    end
 
+    local success = ctx.Config.Save(ctx, "default")
     warn("[Orbital] Save result:", success)
-end)
+    end)
+
 
     Settings:AddDivider()
     Settings:AddSection("Controls")
