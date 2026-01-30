@@ -10,6 +10,10 @@ local State    = load("core/state.lua")
 
 -- UI
 local WindowData = load("ui/window.lua")
+if not WindowData then
+    warn("[Orbital] UI failed to initialize, aborting")
+    return
+end
 
 local Context = {
     Services = Services,
