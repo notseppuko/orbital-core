@@ -7,15 +7,14 @@ return function(ctx)
 
     local Settings = Window:AddTab("Settings", UI.Icons.Settings)
 
+    Settings:AddSection("Orbital Menu Settings")
+
     Settings:AddDropdown("UI Scale", {
         Options = {"50%", "100%", "150%", "200%"},
         Default = "100%",
     }, function(v)
         UIScale.Scale = ({
-            ["50%"]  = 0.5,
-            ["100%"] = 1,
-            ["150%"] = 1.5,
-            ["200%"] = 2
+            ["50%"]=0.5, ["100%"]=1, ["150%"]=1.5, ["200%"]=2
         })[v]
     end)
 
