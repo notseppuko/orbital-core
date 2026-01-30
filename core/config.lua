@@ -1,18 +1,7 @@
 local HttpService = game:GetService("HttpService")
-local FS = require(path.to.fs) -- OR load via loader context (recommended)
 
 local Config = {}
-
 Config.Folder = "OrbitalConfigs"
-
-local function ensureFolders()
-    local ok, err = FS.ensureFolder(Config.Folder)
-    if not ok then
-        warn("[Orbital][Config] Folder error:", err)
-        return false
-    end
-    return true
-end
 
 local function collectState(ctx)
     local State = ctx.State
@@ -32,16 +21,25 @@ local function collectState(ctx)
 end
 
 function Config.Save(ctx, name)
-    if not ensureFolders() then return false end
+    local FS = ctx.FS
+    if not FS then
+        warn("[Orbital][Config] FS not available in context")
+        return false
+    end
+
+    local ok, err = FS.ensureFolder(Config.Folder)
+    if not ok then
+        warn("[Orbital][Config] Folder error:", err)
+        return false
+    end
 
     local data = collectState(ctx)
     local json = HttpService:JSONEncode(data)
 
     local path = Config.Folder .. "/" .. name .. ".json"
-
-    local ok, err = FS.write(path, json)
-    if not ok then
-        warn("[Orbital][Config] Write failed:", err)
+    local ok2, err2 = FS.write(path, json)
+    if not ok2 then
+        warn("[Orbital][Config] Write error:", err2)
         return false
     end
 

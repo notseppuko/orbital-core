@@ -1,23 +1,25 @@
 local FS = {}
 
--- detect APIs safely
-local writefile_ = writefile
+local writefile_ =
+    writefile
     or (syn and syn.writefile)
     or (sunc and sunc.writefile)
 
-local readfile_ = readfile
+local readfile_ =
+    readfile
     or (syn and syn.readfile)
     or (sunc and sunc.readfile)
 
-local isfolder_ = isfolder
+local isfolder_ =
+    isfolder
     or (syn and syn.isfolder)
     or (sunc and sunc.isfolder)
 
-local makefolder_ = makefolder
+local makefolder_ =
+    makefolder
     or (syn and syn.makefolder)
     or (sunc and sunc.makefolder)
 
--- expose capabilities
 FS.supports = {
     writefile = type(writefile_) == "function",
     readfile  = type(readfile_) == "function",
