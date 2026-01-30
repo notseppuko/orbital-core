@@ -1,49 +1,37 @@
 return function(ctx)
     task.wait()
 
-    local Window = ctx.Window
-    local UI     = ctx.UI
-    local State  = ctx.State
+    local Players     = game:GetService("Players")
+    local VirtualUser = game:GetService("VirtualUser")
+    local LocalPlayer = Players.LocalPlayer
 
-    local Players       = game:GetService("Players")
-    local VirtualUser   = game:GetService("VirtualUser")
-    local LocalPlayer   = Players.LocalPlayer
+    local State = ctx.State
+    local afkConnection
 
-    local afkConnection = nil
-
-    local function enableAntiAFK()
+    local function enable()
         if afkConnection then return end
-
         afkConnection = LocalPlayer.Idled:Connect(function()
-        VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-        task.wait(0.1)
-        VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+            VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            task.wait(0.1)
+            VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
         end)
     end
 
-    local function disableAntiAFK()
+    local function disable()
         if afkConnection then
             afkConnection:Disconnect()
             afkConnection = nil
         end
     end
 
-    -- Default State
     State.AntiAFK = true
-    enableAntiAFK()
+    enable()
 
     local Tab = ctx.Window:AddTab("Misc", ctx.UI.Icons.Misc)
-    Misc:AddSection("Utility")
-    
-    Tab:AddToggle("Anti-AFK", {
-        Default = true 
-    }, function(enabled)
-        ctx.State.AntiAFK = enabled
+    Tab:AddSection("Utility")
 
-        if enabled then
-            enableAntiAFK()
-        else
-            disableAntiAFK()
-        end
+    Tab:AddToggle("Anti-AFK", { Default = true }, function(v)
+        State.AntiAFK = v
+        if v then enable() else disable() end
     end)
 end
