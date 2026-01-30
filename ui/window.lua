@@ -1,9 +1,30 @@
-local success, UI = pcall(function()
-    return loadstring(game:HttpGet("https://xan.bar/init.lua"))()
-end)
+local function loadXan()
+    local urls = {
+        "https://xan.bar/init.lua",
+        -- fallback mirrors (add more if needed)
+        "https://raw.githubusercontent.com/xan-ui/xan/main/init.lua"
+    }
 
-if not success or type(UI) ~= "table" or not UI.New then
-    warn("[Orbital] Failed to load Xan UI")
+    for _, url in ipairs(urls) do
+        for i = 1, 3 do
+            local ok, result = pcall(function()
+                return loadstring(game:HttpGet(url))()
+            end)
+
+            if ok and type(result) == "table" and result.New then
+                return result
+            end
+
+            task.wait(0.5)
+        end
+    end
+
+    return nil
+end
+
+local UI = loadXan()
+if not UI then
+    warn("[Orbital] Failed to load Xan UI after retries")
     return nil
 end
 
