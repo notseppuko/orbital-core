@@ -11,7 +11,6 @@ local State    = load("core/state.lua")
 -- UI
 local WindowData = load("ui/window.lua")
 
--- Shared context
 local Context = {
     Services = Services,
     State    = State,
@@ -20,8 +19,14 @@ local Context = {
     UIScale  = WindowData.UIScale
 }
 
--- Features
+-- Features / Tabs
+load("features/aimbot.lua")(Context)
+load("features/visuals.lua")(Context)
 load("features/movement.lua")(Context)
+load("features/player.lua")(Context)
+load("features/misc.lua")(Context)
+
+-- UI
 load("ui/settings.lua")(Context)
 
 -- Hooks
