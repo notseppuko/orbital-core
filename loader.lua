@@ -7,7 +7,7 @@ local BUILD = {
 local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/dev/"
 
 local function load(path)
-    local url = BASE .. path
+    local url = BASE .. path .. "?cb=" .. tostring(os.clock())
 
     local ok, src = pcall(function()
         return game:HttpGet(url)
