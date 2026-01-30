@@ -1,13 +1,25 @@
 return function(ctx)
-    task.wait()
+    task.wait(0.15)
+    
+    if not ctx or not ctx.Window or not ctx.UI then
+        return
+    end
 
     local Window  = ctx.Window
     local UI      = ctx.UI
     local UIScale = ctx.UIScale
 
     local Settings = Window:AddTab("Settings", UI.Icons.Settings)
+    if not Settings then return end
+    
+    -- SECTION: INFO 
+    Settings:AddSection("Orbital")
+    Settings:AddLabel("Orbital Core v0.1")
+    Settings:AddLabel("Status: Stable")
+    -- SECTION: UI
+    Settings:AddDivider()
+    Settings:AddSection("UI")
 
-    Settings:AddSection("Orbital Menu Settings")
 
     Settings:AddDropdown("UI Scale", {
         Options = {"50%", "100%", "150%", "200%"},
@@ -28,8 +40,5 @@ return function(ctx)
         Callback = UI.Unload
     })
 end
-
-Settings:AddLabel("Orbital Core v0.1")
-Settings:AddLabel("Status: Stable")
 
 
