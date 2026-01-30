@@ -22,6 +22,7 @@ local Context = {
 
 -- Features
 load("features/movement.lua")(Context)
+load("ui/settings.lua")(Context)
 
--- Utils / hooks
+-- Hooks
 load("core/utils.lua")(Context)
