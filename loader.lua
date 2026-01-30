@@ -44,8 +44,13 @@ warn("[Orbital] Context ready")
 
 -- FEATURES (DEBUG-FIRST)
 local ok, err = pcall(function()
+    load("features/aimbot.lua")(Context)
+    load("features/visuals.lua")(Context)
     load("features/movement.lua")(Context)
+    load("features/player.lua")(Context)
+    load("features/misc.lua")(Context)
     load("ui/settings.lua")(Context)
+
 end)
 
 if not ok then
