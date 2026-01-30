@@ -2,6 +2,24 @@ local Config = {}
 
 Config.Folder = "OrbitalConfigs"
 
+-- DEFINE collectState BEFORE Save
+local function collectState(ctx)
+    local State = ctx.State
+    local UI    = ctx.UI
+
+    return {
+        Movement = {
+            SpeedEnabled = State.SpeedEnabled,
+            JumpEnabled  = State.JumpEnabled,
+            SpeedValue   = UI and UI.Flags and UI.Flags.SpeedValue,
+            JumpValue    = UI and UI.Flags and UI.Flags.JumpValue,
+        },
+        Misc = {
+            AntiAFK = State.AntiAFK
+        }
+    }
+end
+
 function Config.Save(ctx, name)
     local FS = ctx.FS
     local Services = ctx.Services
@@ -35,3 +53,5 @@ function Config.Save(ctx, name)
     warn("[Orbital][Config] Saved:", path)
     return true
 end
+
+return Config
