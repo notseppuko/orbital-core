@@ -1,7 +1,11 @@
-local Services = require(path.core.services)
-local State    = require(path.core.state)
+return function(ctx)
+    task.wait() -- allow UI to initialize
 
-return function(Window, UI)
+    local Window   = ctx.Window
+    local UI       = ctx.UI
+    local Services = ctx.Services
+    local State    = ctx.State
+
     local Movement = Window:AddTab("Movement", UI.Icons.World)
     Movement:AddSection("Speed")
 
@@ -19,7 +23,9 @@ return function(Window, UI)
 
     Movement:AddSlider("Walk Speed", {
         Flag = "SpeedValue",
-        Min = 16, Max = 300, Default = 16
+        Min = 16,
+        Max = 300,
+        Default = 16
     }, function(value)
         if State.SpeedEnabled then
             local hum = Services.LocalPlayer.Character
