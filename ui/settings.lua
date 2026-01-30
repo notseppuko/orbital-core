@@ -8,14 +8,18 @@ return function(ctx)
     local Window  = ctx.Window
     local UI      = ctx.UI
     local UIScale = ctx.UIScale
+    local Build   = ctx.Build
 
     local Settings = Window:AddTab("Settings", UI.Icons.Settings)
     if not Settings then return end
     
     -- SECTION: INFO 
-    Settings:AddSection("Orbital")
-    Settings:AddLabel("Orbital Core v0.1")
-    Settings:AddLabel("Status: Stable")
+    Settings:AddSection("Build Info")
+
+    Settings:AddLabel("Version: " .. (Build.Version or "unknown"))
+    Settings:AddLabel("Branch: " .. (Build.Branch or "unknown"))
+    Settings:AddLabel("Status: " .. (Build.Status or "unknown"))
+
     -- SECTION: UI
     Settings:AddDivider()
     Settings:AddSection("UI")
@@ -29,6 +33,10 @@ return function(ctx)
             ["50%"]=0.5, ["100%"]=1, ["150%"]=1.5, ["200%"]=2
         })[v]
     end)
+    
+-- SECTION: CONTROLS
+Settings:AddDivider()
+Settings:AddSection("Controls")
 
     Settings:AddKeybind("Toggle Menu",
         { Default = Enum.KeyCode.RightShift },

@@ -1,4 +1,10 @@
-local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/main/"
+local BUILD = {
+    Branch  = "dev",      -- "dev" | "main"
+    Version = "v0.2-dev",
+    Status  = "In Development"
+}
+
+local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/dev/"
 
 local function load(path)
     local url = BASE .. path
@@ -37,7 +43,8 @@ local Context = {
     State    = State,
     Window   = WindowData.Window,
     UI       = WindowData.UI,
-    UIScale  = WindowData.UIScale
+    UIScale  = WindowData.UIScale,
+    Build    =  BUILD
 }
 
 warn("[Orbital] Context ready")
