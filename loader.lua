@@ -1,12 +1,17 @@
-local function loadModule(path)
-    local base = "https://raw.githubusercontent.com/notseppuko/orbital-core/refs/heads/main/"
-    return loadstring(game:HttpGet(base .. path))()
+local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/refs/heads/main/"
+
+local function load(path)
+    return loadstring(game:HttpGet(BASE .. path))()
 end
 
-local Services = loadModule("core/services.lua")
-local State    = loadModule("core/state.lua")
-local WindowData = loadModule("ui/window.lua")
+-- Core
+local Services = load("core/services.lua")
+local State    = load("core/state.lua")
 
+-- UI
+local WindowData = load("ui/window.lua")
+
+-- Shared context
 local Context = {
     Services = Services,
     State    = State,
@@ -15,4 +20,8 @@ local Context = {
     UIScale  = WindowData.UIScale
 }
 
-loadModule("features/movement.lua")(Context)
+-- Features
+load("features/movement.lua")(Context)
+
+-- Utils / hooks
+load("core/utils.lua")(Context)
