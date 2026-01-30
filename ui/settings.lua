@@ -1,4 +1,10 @@
-return function(Window, UI, UIScale)
+return function(ctx)
+    task.wait()
+
+    local Window  = ctx.Window
+    local UI      = ctx.UI
+    local UIScale = ctx.UIScale
+
     local Settings = Window:AddTab("Settings", UI.Icons.Settings)
 
     Settings:AddDropdown("UI Scale", {
@@ -6,7 +12,10 @@ return function(Window, UI, UIScale)
         Default = "100%",
     }, function(v)
         UIScale.Scale = ({
-            ["50%"]=0.5, ["100%"]=1, ["150%"]=1.5, ["200%"]=2
+            ["50%"]  = 0.5,
+            ["100%"] = 1,
+            ["150%"] = 1.5,
+            ["200%"] = 2
         })[v]
     end)
 
