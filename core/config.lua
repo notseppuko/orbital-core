@@ -1,3 +1,7 @@
+local Config = {}
+
+Config.Folder = "OrbitalConfigs"
+
 function Config.Save(ctx, name)
     local FS = ctx.FS
     local Services = ctx.Services
