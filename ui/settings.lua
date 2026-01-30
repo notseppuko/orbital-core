@@ -24,7 +24,6 @@ return function(ctx)
     Settings:AddDivider()
     Settings:AddSection("UI")
 
-
     Settings:AddDropdown("UI Scale", {
         Options = {"50%", "100%", "150%", "200%"},
         Default = "100%",
@@ -39,7 +38,7 @@ return function(ctx)
 Settings:AddDivider()
 Settings:AddSection("Config")
 
-Settings:AddButton("Save Config", function ()
+Settings:AddButton("Save Config", function()
     local success = ctx.Config:Save(ctx, "default")
 
     if success then

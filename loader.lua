@@ -46,7 +46,7 @@ local Context = {
     Window   = WindowData.Window,
     UI       = WindowData.UI,
     UIScale  = WindowData.UIScale,
-    Build    =  BUILD
+    Build    = BUILD
 }
 
 warn("[Orbital] Context ready")
