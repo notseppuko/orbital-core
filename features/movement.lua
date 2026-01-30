@@ -6,8 +6,12 @@ return function(ctx)
     local Services = ctx.Services
     local State    = ctx.State
 
+    local speedValue = 16
+    local jumpValue  = 100
+
     local Movement = Window:AddTab("Movement", UI.Icons.World)
 
+    -- SPEED
     Movement:AddSection("Speed")
 
     Movement:AddToggle("Enable Speed", {
@@ -17,13 +21,19 @@ return function(ctx)
         State.SpeedEnabled = v
         local hum = Services.LocalPlayer.Character
             and Services.LocalPlayer.Character:FindFirstChild("Humanoid")
-        if hum then hum.WalkSpeed = v and (UI.Get("SpeedValue") or 50) or 16 end
+
+        if hum then
+            hum.WalkSpeed = v and speedValue or 16
+        end
     end)
 
     Movement:AddSlider("Walk Speed", {
         Flag = "SpeedValue",
-        Min = 16, Max = 300, Default = 16
+        Min = 16,
+        Max = 300,
+        Default = 16
     }, function(v)
+        speedValue = v
         if State.SpeedEnabled then
             local hum = Services.LocalPlayer.Character
                 and Services.LocalPlayer.Character:FindFirstChild("Humanoid")
@@ -31,6 +41,7 @@ return function(ctx)
         end
     end)
 
+    -- JUMP
     Movement:AddDivider()
     Movement:AddSection("Jump")
 
@@ -41,16 +52,20 @@ return function(ctx)
         State.JumpEnabled = v
         local hum = Services.LocalPlayer.Character
             and Services.LocalPlayer.Character:FindFirstChild("Humanoid")
+
         if hum then
-            hum.JumpPower  = v and (UI.Get("JumpValue") or 100) or 50
-            hum.JumpHeight = v and ((UI.Get("JumpValue") or 100) / 2) or 7.2
+            hum.JumpPower  = v and jumpValue or 50
+            hum.JumpHeight = v and (jumpValue / 2) or 7.2
         end
     end)
 
     Movement:AddSlider("Jump Power", {
         Flag = "JumpValue",
-        Min = 50, Max = 500, Default = 100
+        Min = 50,
+        Max = 500,
+        Default = 100
     }, function(v)
+        jumpValue = v
         if State.JumpEnabled then
             local hum = Services.LocalPlayer.Character
                 and Services.LocalPlayer.Character:FindFirstChild("Humanoid")
