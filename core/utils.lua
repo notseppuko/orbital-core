@@ -7,7 +7,6 @@ return function(ctx)
 
     Services.LocalPlayer.CharacterAdded:Connect(function(char)
         local hum = char:WaitForChild("Humanoid")
-        task.wait()
 
         if State.SpeedEnabled then
             hum.WalkSpeed = speedFallback

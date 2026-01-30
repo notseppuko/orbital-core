@@ -14,8 +14,6 @@ local function loadXan()
             if ok and type(result) == "table" and result.New then
                 return result
             end
-
-            task.wait(0.5)
         end
     end
 

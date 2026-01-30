@@ -1,5 +1,4 @@
 return function(ctx)
-    task.wait()
 
     local Services    = ctx.Services
     local Players     = Services.Players
@@ -13,7 +12,6 @@ return function(ctx)
         if afkConnection then return end
         afkConnection = LocalPlayer.Idled:Connect(function()
             VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-            task.wait(0.1)
             VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
         end)
     end

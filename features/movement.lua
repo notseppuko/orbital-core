@@ -1,5 +1,4 @@
 return function(ctx)
-    task.wait()
 
     local Window   = ctx.Window
     local UI       = ctx.UI
