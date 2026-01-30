@@ -1,8 +1,22 @@
-local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/refs/heads/main/"
+local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/main/"
 
 local function load(path)
-    local src = game:HttpGet(BASE .. path)
-    return loadstring(src)()
+    local url = BASE .. path
+
+    local ok, src = pcall(function()
+        return game:HttpGet(url)
+    end)
+
+    if not ok or type(src) ~= "string" or #src == 0 then
+        error("[Orbital] HttpGet failed: " .. url)
+    end
+
+    local fn, err = loadstring(src)
+    if not fn then
+        error("[Orbital] loadstring failed (" .. path .. "): " .. tostring(err))
+    end
+
+    return fn()
 end
 
 warn("[Orbital] Loader started")
@@ -13,11 +27,11 @@ local State    = load("core/state.lua")
 
 -- UI
 local WindowData = load("ui/window.lua")
-if not WindowData then
-    warn("[Orbital] WindowData nil, aborting")
-    return
+if not WindowData or not WindowData.Window then
+    error("[Orbital] WindowData invalid")
 end
 
+-- Shared context
 local Context = {
     Services = Services,
     State    = State,
@@ -26,16 +40,16 @@ local Context = {
     UIScale  = WindowData.UIScale
 }
 
-warn("[Orbital] Context ready, loading features")
+warn("[Orbital] Context ready")
 
--- FEATURES (THESE LINES MUST EXECUTE)
+-- FEATURES (DEBUG-FIRST)
 local ok, err = pcall(function()
     load("features/movement.lua")(Context)
     load("ui/settings.lua")(Context)
 end)
 
 if not ok then
-    warn("[Orbital] Feature load error:", err)
+    error("[Orbital] Feature execution failed: " .. tostring(err))
 end
 
-warn("[Orbital] Loader finished")
+warn("[Orbital] Loader finished successfully")
