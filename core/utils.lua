@@ -1,7 +1,8 @@
-local Services = require(path.core.services)
-local State    = require(path.core.state)
+return function(ctx)
+    local Services = ctx.Services
+    local State    = ctx.State
+    local UI       = ctx.UI
 
-return function(UI)
     Services.LocalPlayer.CharacterAdded:Connect(function(char)
         local hum = char:WaitForChild("Humanoid")
         task.wait()
