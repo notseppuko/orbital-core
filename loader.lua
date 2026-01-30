@@ -28,6 +28,7 @@ end
 warn("[Orbital] Loader started")
 
 -- Core
+local Config   = load("core/config.lua")
 local Services = load("core/services.lua")
 local State    = load("core/state.lua")
 
@@ -39,6 +40,7 @@ end
 
 -- Shared context
 local Context = {
+    Config   = Config,
     Services = Services,
     State    = State,
     Window   = WindowData.Window,
