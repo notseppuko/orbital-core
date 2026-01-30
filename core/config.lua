@@ -1,28 +1,14 @@
-local Config = {}
-Config.Folder = "OrbitalConfigs"
-
-local function collectState(ctx)
-    local State = ctx.State
-    local UI    = ctx.UI
-
-    return {
-        Movement = {
-            SpeedEnabled = State.SpeedEnabled,
-            JumpEnabled  = State.JumpEnabled,
-            SpeedValue   = UI and UI.Flags and UI.Flags.SpeedValue,
-            JumpValue    = UI and UI.Flags and UI.Flags.JumpValue
-        },
-        Misc = {
-            AntiAFK = State.AntiAFK
-        }
-    }
-end
-
 function Config.Save(ctx, name)
     local FS = ctx.FS
-    local HttpService = ctx.Services.HttpService
+    local Services = ctx.Services
+
     if not FS then
-        warn("[Orbital][Config] FS not available in context")
+        warn("[Orbital][Config] FS not available")
+        return false
+    end
+
+    if not Services or not Services.HttpService then
+        warn("[Orbital][Config] HttpService unavailable")
         return false
     end
 
@@ -33,7 +19,7 @@ function Config.Save(ctx, name)
     end
 
     local data = collectState(ctx)
-    local json = HttpService:JSONEncode(data)
+    local json = Services.HttpService:JSONEncode(data)
 
     local path = Config.Folder .. "/" .. name .. ".json"
     local ok2, err2 = FS.write(path, json)
@@ -45,5 +31,3 @@ function Config.Save(ctx, name)
     warn("[Orbital][Config] Saved:", path)
     return true
 end
-
-return Config
