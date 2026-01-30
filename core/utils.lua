@@ -1,19 +1,21 @@
 return function(ctx)
     local Services = ctx.Services
     local State    = ctx.State
-    local UI       = ctx.UI
+
+    local speedFallback = 16
+    local jumpFallback  = 100
 
     Services.LocalPlayer.CharacterAdded:Connect(function(char)
         local hum = char:WaitForChild("Humanoid")
         task.wait()
 
         if State.SpeedEnabled then
-            hum.WalkSpeed = UI.Get("SpeedValue") or 50
+            hum.WalkSpeed = speedFallback
         end
+
         if State.JumpEnabled then
-            local jp = UI.Get("JumpValue") or 100
-            hum.JumpPower = jp
-            hum.JumpHeight = jp / 2
+            hum.JumpPower  = jumpFallback
+            hum.JumpHeight = jumpFallback / 2
         end
     end)
 end
