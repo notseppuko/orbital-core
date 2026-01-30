@@ -5,14 +5,26 @@ local Config = {}
 Config.RootFolder = "Orbital"
 Config.ConfigFolder = "Orbital/configs"
 
+local _isfolder = isfolder or isfolder
+local _makefolder = makefolder or makeFolder
+local _writefile = writefile or writeFile
+
 local function ensureFolders()
-    if not isfolder(Config.RootFolder) then
-        makefolder(Config.RootFolder)
+
+    if not _isfolder or not _makefolder then
+        warn("[Orbital][Config] Folder APIs not supported by executor")
+        return false
     end
 
-    if not isfolder(Config.ConfigFolder) then
-        makefolder(Config.ConfigFolder)
+    if not _isfolder(Config.RootFolder) then
+        _makefolder(Config.RootFolder)
     end
+
+    if not _isfolder(Config.ConfigFolder) then
+        _makefolder(Config.ConfigFolder)
+    end
+
+    return true
 end
 
 local function collectState(ctx)
@@ -33,19 +45,23 @@ local function collectState(ctx)
 end
 
 function Config.Save(ctx, name)
-    if type(writefile) ~= "function" then
-        warn("[Orbital] Executor does not support file writing")
+    if not _writefile then
+        warn("[Orbital][Config] writefile not supported by executor")
         return false
     end
 
-    ensureFolders()
+    if not ensureFolders() then
+        warn("[Orbital][Config] Failed to ensure folders")
+        return false
+    end
 
     local data = collectState(ctx)
     local json = HttpService:JSONEncode(data)
 
     local path = Config.ConfigFolder .. "/" .. name .. ".json"
-    writefile(path, json)
+    _writefile(path, json)
 
+    warn("[Orbital][Config] Saved config:", path)
     return true
 end
 
