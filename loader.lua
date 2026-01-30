@@ -1,5 +1,3 @@
-local FS       = load("core/fs.lua")
-
 local BUILD = {
     Branch  = "dev",      -- "dev" | "main"
     Version = "v0.2-dev",
@@ -31,6 +29,7 @@ end
 warn("[Orbital] Loader started")
 
 -- Core
+local FS       = load("core/fs.lua")
 local Config   = load("core/config.lua")
 local Services = load("core/services.lua")
 local State    = load("core/state.lua")
