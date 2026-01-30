@@ -1,8 +1,11 @@
 local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/refs/heads/main/"
 
 local function load(path)
-    return loadstring(game:HttpGet(BASE .. path))()
+    local src = game:HttpGet(BASE .. path)
+    return loadstring(src)()
 end
+
+warn("[Orbital] Loader started")
 
 -- Core
 local Services = load("core/services.lua")
@@ -11,7 +14,7 @@ local State    = load("core/state.lua")
 -- UI
 local WindowData = load("ui/window.lua")
 if not WindowData then
-    warn("[Orbital] UI failed to initialize, aborting")
+    warn("[Orbital] WindowData nil, aborting")
     return
 end
 
@@ -23,15 +26,16 @@ local Context = {
     UIScale  = WindowData.UIScale
 }
 
--- Features / Tabs
-load("features/aimbot.lua")(Context)
-load("features/visuals.lua")(Context)
-load("features/movement.lua")(Context)
-load("features/player.lua")(Context)
-load("features/misc.lua")(Context)
+warn("[Orbital] Context ready, loading features")
 
--- UI
-load("ui/settings.lua")(Context)
+-- FEATURES (THESE LINES MUST EXECUTE)
+local ok, err = pcall(function()
+    load("features/movement.lua")(Context)
+    load("ui/settings.lua")(Context)
+end)
 
--- Hooks
-load("core/utils.lua")(Context)
+if not ok then
+    warn("[Orbital] Feature load error:", err)
+end
+
+warn("[Orbital] Loader finished")
