@@ -10,18 +10,33 @@ local _makefolder = makefolder or makeFolder
 local _writefile = writefile or writeFile
 
 local function ensureFolders()
-
     if not _isfolder or not _makefolder then
         warn("[Orbital][Config] Folder APIs not supported by executor")
         return false
     end
 
+    -- Create root first
     if not _isfolder(Config.RootFolder) then
-        _makefolder(Config.RootFolder)
+        local ok, err = pcall(function()
+            _makefolder(Config.RootFolder)
+        end)
+
+        if not ok then
+            warn("[Orbital][Config] Failed to create root folder:", err)
+            return false
+        end
     end
 
+    -- Create configs folder second
     if not _isfolder(Config.ConfigFolder) then
-        _makefolder(Config.ConfigFolder)
+        local ok, err = pcall(function()
+            _makefolder(Config.ConfigFolder)
+        end)
+
+        if not ok then
+            warn("[Orbital][Config] Failed to create configs folder:", err)
+            return false
+        end
     end
 
     return true
