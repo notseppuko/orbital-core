@@ -1,9 +1,10 @@
 return function(ctx)
     task.wait()
 
-    local Players     = game:GetService("Players")
-    local VirtualUser = game:GetService("VirtualUser")
-    local LocalPlayer = Players.LocalPlayer
+    local Services    = ctx.Services
+    local Players     = Services.Players
+    local VirtualUser = Services.VirtualUser
+    local LocalPlayer = Services.LocalPlayer
 
     local State = ctx.State
     local afkConnection

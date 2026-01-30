@@ -1,5 +1,3 @@
-local HttpService = game:GetService("HttpService")
-
 local Config = {}
 Config.Folder = "OrbitalConfigs"
 
@@ -22,6 +20,7 @@ end
 
 function Config.Save(ctx, name)
     local FS = ctx.FS
+    local HttpService = ctx.Services.HttpService
     if not FS then
         warn("[Orbital][Config] FS not available in context")
         return false

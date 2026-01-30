@@ -4,7 +4,6 @@ local BUILD = {
     Status  = "In Development"
 }
 
-
 local BASE = "https://raw.githubusercontent.com/notseppuko/orbital-core/dev/"
 
 local function load(path)
@@ -55,18 +54,16 @@ local Context = {
 warn("[Orbital] Context ready")
 
 -- FEATURES (DEBUG-FIRST)
-local ok, err = pcall(function()
-    load("features/aimbot.lua")(Context)
-    load("features/visuals.lua")(Context)
-    load("features/movement.lua")(Context)
-    load("features/player.lua")(Context)
-    load("features/misc.lua")(Context)
-    load("ui/settings.lua")(Context)
-
-end)
-
-if not ok then
-    error("[Orbital] Feature execution failed: " .. tostring(err))
+local function safeLoad(path)
+    load(path)(Context)
+    task.wait()
 end
+
+safeLoad("features/aimbot.lua")
+safeLoad("features/visuals.lua")
+safeLoad("features/movement.lua")
+safeLoad("features/player.lua")
+safeLoad("features/misc.lua")
+safeLoad("ui/settings.lua")
 
 warn("[Orbital] Loader finished successfully")
