@@ -28,3 +28,8 @@ return function(ctx)
         Callback = UI.Unload
     })
 end
+
+Settings:AddLabel("Orbital Core v0.1")
+Settings:AddLabel("Status: Stable")
+
+
